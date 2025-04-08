@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Questions</h2>
+<ul class="list-group">
+    {% for question in questions %}
+    <li class="list-group-item">
+        <a href="/answer/question/{{ question.id }}/">{{ question.title }}</a><br>
+        <small>by {{ question.user.username }} at {{ question.created_at }}</small>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
