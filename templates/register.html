@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Register</h2>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">Register</button></form>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-4">
+                <h3 class="text-center text-primary fw-bold mb-4">Create Account</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }} <!-- Form fields automatically get the 'form-control' class -->
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Already have an account? <a href="/user/login/"
+                                class="text-decoration-none">Login here</a></small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

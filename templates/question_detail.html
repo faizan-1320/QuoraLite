@@ -1,19 +1,64 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>{{ question.title }}</h2>
-<p>{{ question.body }}</p>
-<small>by {{ question.user.username }} at {{ question.created_at }}</small>
-<hr>
-<h4>Answers</h4>
-{% for answer in answers %}
-<div class="card mb-2">
-    <div class="card-body">
-        <p>{{ answer.body }}</p>
-        <small>by {{ answer.user.username }} | <a href="/answer/like/{{ answer.id }}/">Like</a></small>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Content: Question and Answers -->
+        <div class="col-md-8">
+            <!-- Question Section -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="m-0">{{ question.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ question.body }}</p>
+                    <small class="text-muted">by {{ question.user.username }} at {{ question.created_at }}</small>
+                </div>
+            </div>
+
+            <!-- Answers Section -->
+            <div class="mb-4">
+                <h4 class="mb-3">Answers</h4>
+                {% for answer in answers %}
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <p>{{ answer.body }}</p>
+                        <small class="text-muted">by {{ answer.user.username }} | 
+                            <a href="/answer/like/{{ answer.id }}/" class="btn btn-outline-primary btn-sm">Like</a>
+                        </small>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-info">No answers yet. Be the first to answer!</div>
+                {% endfor %}
+            </div>
+
+            <!-- Answer Form Section -->
+            <hr class="my-4">
+            <h4 class="mb-3">Your Answer</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success btn-lg">Submit Your Answer</button>
+            </form>
+        </div>
+
+        <!-- Sidebar (Optional) -->
+        <div class="col-md-4">
+            <!-- Add your sidebar content here, e.g., popular questions, tags, or user info -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Popular Questions</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none">How to use Django efficiently?</a></li>
+                        <li><a href="#" class="text-decoration-none">What is the best Python framework?</a></li>
+                        <li><a href="#" class="text-decoration-none">How to deploy Django on AWS?</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-{% endfor %}
-<hr>
-<h4>Your Answer</h4>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">Submit Answer</button></form>
 {% endblock %}

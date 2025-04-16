@@ -17,7 +17,7 @@ def post_question(request):
             question = form.save(commit=False)
             question.user = request.user
             question.save()
-            return redirect("home")
+            return redirect("home")  # Redirect to home or the page you want
     else:
         form = QuestionForm()
-    return render(request, "post_question.html", {"form": form})
+    return render(request, "post_question.html", {"form": form})    
